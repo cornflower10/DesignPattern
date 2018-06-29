@@ -3,6 +3,8 @@ package com.design.pattern;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.design.pattern.Chain.LoggerInterceptor;
+import com.design.pattern.Chain.NetInterceptor;
 import com.design.pattern.proxy.IProxy;
 import com.design.pattern.proxy.Proxy;
 import com.design.pattern.proxy.RealProxy;
@@ -27,5 +29,10 @@ public class MainActivity extends AppCompatActivity {
        IProxy iProxy = (IProxy) java.lang.reflect.Proxy.newProxyInstance(realProxy.getClass().getClassLoader()
                 ,realProxy.getClass().getInterfaces(),new DyInvocationHandler(realProxy));
         iProxy.showImage();
+        //责任链模式
+        NetInterceptor netInterceptor = new NetInterceptor();
+        LoggerInterceptor loggerInterceptor = new LoggerInterceptor();
+        netInterceptor.setInterceptor(loggerInterceptor);
+        netInterceptor.doChain();
     }
 }
